@@ -21,10 +21,12 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-   
-    std::vector<BaseParticle*> particles;
-    
-    ofTrueTypeFont font;
-    ofTrueTypeFont subScriptFont;
+
+
+    std::vector<Element> elements;
+    std::vector<Molecule> molecules;
+
+    ofPtr<ofTrueTypeFont> font;
+    ofPtr<ofTrueTypeFont> subScriptFont;
 		
 };

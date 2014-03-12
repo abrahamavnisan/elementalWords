@@ -9,7 +9,13 @@
 #include "baseParticle.h"
 
 
-BaseParticle::BaseParticle(const ofVec2f& _position): age(0), position(_position) //what does one ":" do? this line is confusing in general. 
+// what does one ":" do? this line is confusing in general.
+// http://www.cprogramming.com/tutorial/initialization-lists-c++.html
+
+BaseParticle::BaseParticle(const ofVec2f& _position):
+    age(0),
+    position(_position),
+    drag(0.95)
 {
 }
 
@@ -24,6 +30,8 @@ void BaseParticle::update()
     age++;
     velocity += acceleration;
     position += velocity;
+
+    velocity *= drag;
 }
 
 
@@ -41,18 +49,22 @@ void BaseParticle::draw()
 
 bool BaseParticle::isInside(int x, int y) const
 {
-    return getBoundingBox().inside(x, y); //for this ofRect getBoundingBox() if x,y is inside, return True
+    // for this ofRect getBoundingBox() if x,y is inside, return True
+    return getBoundingBox().inside(x, y);
 }
+
 
 ofRectangle BaseParticle::getBoundingBox() const
 {
-    return ofRectangle(0,0,0,0);    
+    return ofRectangle(0, 0, 0, 0);
 }
+
 
 int BaseParticle::getWidth() const
 {
     return getBoundingBox().width;
 }
+
 
 int BaseParticle::getHeight() const
 {

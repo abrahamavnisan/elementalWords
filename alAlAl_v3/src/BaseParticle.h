@@ -9,15 +9,17 @@
 
 #pragma once
 
+
 #include "ofMain.h"
+
 
 class BaseParticle
 {
 public:
     BaseParticle(const ofVec2f& position);
-    virtual ~BaseParticle(); //destructor..deallocates memory, called when obkect passes out of scope and can be deleted
+    virtual ~BaseParticle(); // destructor..deallocates memory, called when obkect passes out of scope and can be deleted
     
-    virtual void update(); //virtual classes deal with inheritance with various classes, so it's only shared as much as it's needed.
+    virtual void update(); // virtual classes deal with inheritance with various classes, so it's only shared as much as it's needed.
     virtual void draw();
     
     virtual bool isInside(int x, int y) const; //must be inside x & y to react
@@ -32,5 +34,7 @@ public:
     ofVec2f position;
     ofVec2f velocity;
     ofVec2f acceleration;
+
+    float drag;
 
 };
