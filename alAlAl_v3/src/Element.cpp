@@ -9,46 +9,55 @@
 #include "Element.h"
 
 
-Element::Element(const ofVec2f& position, const std::string& _name, ofTrueTypeFont& _fontRef): //this setup is not clear to me
-    BaseParticle(position),
+Element::Element(const std::string& _name,
+                 ofPtr<ofTrueTypeFont> font):
+    BaseParticle(ofVec2f()),
     name(_name),
-    fontRef(_fontRef)
+    fontRef(font)
 {
 }
+
+
+Element::Element(const ofVec2f& position,
+                 const std::string& _name,
+                 ofPtr<ofTrueTypeFont> font): //this setup is not clear to me
+    BaseParticle(position),
+    name(_name),
+    fontRef(font)
+{
+}
+
 
 Element::~Element()
 {
 }
 
-void Element::draw()  //same as Base only we draw font 
+
+void Element::draw()  // same as Base only we draw font
 {
+    ofRectangle rect = getBoundingBox();
+
+    ofSetColor(0,255,255);
+    ofFill();
+
+    ofRect(rect);
+
     ofPushStyle();
     ofPushMatrix();
-    ofTranslate(position);
+    ofTranslate(position.x, position.y + rect.height);
     ofFill();
     ofSetColor(0);
-    fontRef.drawString(name, 0, 0);
+    fontRef->drawString(name, 0, 0);
     ofPopMatrix();
     ofPopStyle();
 }
 
-bool Element::isInside(int x, int y) const
-{
-//    cout << "here" << endl;
-    return getBoundingBox().inside(x, y);
-}
 
 ofRectangle Element::getBoundingBox() const   //^why/how is this transitioning from string info to rect info
 {
-    return fontRef.getStringBoundingBox(name, position.x, position.y);
+    ofRectangle rect = fontRef->getStringBoundingBox(name, 0, 0);
+    rect.x = position.x;
+    rect.y = position.y;
+    return rect;
 }
 
-int Element::getWidth() const
-{
-    return fontRef.getStringBoundingBox(name, position.x, position.y).width;
-}
-
-int Element::getHeight() const
-{
-    return fontRef.getStringBoundingBox(name, position.x, position.y).height;
-}
